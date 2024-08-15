@@ -5,31 +5,31 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
+          "type": "item",
           "weight": 2,
           "name": "artifacts:panic_necklace"
         },
         {
-          "type": "minecraft:item",
+          "type": "item",
           "weight": 2,
           "name": "artifacts:bottled_cloud"
         },
         {
-          "type": "minecraft:item",
+          "type": "item",
           "name": "artifacts:lucky_clover"
         },
         {
-          "type": "minecraft:item",
+          "type": "item",
           "weight": 2,
           "name": "artifacts:drinking_hat"
         },
         {
-          "type": "minecraft:item",
+          "type": "item",
           "weight": 2,
           "name": "artifacts:bubble_wrap"
         },
         {
-          "type": "minecraft:item",
+          "type": "item",
           "weight": 2,
           "name": "artifacts:sacrificial_amulet"
         }

@@ -5,12 +5,12 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:loot_table",
+          "type": "loot_table",
           "weight": 3,
           "name": "artifacts:mimic_underground"
         },
         {
-          "type": "minecraft:item",
+          "type": "item",
           "name": "artifacts:bottled_cloud"
         }
       ]

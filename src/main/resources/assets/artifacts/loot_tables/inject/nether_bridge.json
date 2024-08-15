@@ -5,12 +5,12 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
+          "type": "item",
           "weight": 3,
           "name": "artifacts:pocket_piston"
         },
         {
-          "type": "minecraft:item",
+          "type": "item",
           "weight": 3,
           "name": "artifacts:drinking_hat"
         }
