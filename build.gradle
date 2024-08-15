@@ -1,96 +1,55 @@
 buildscript {
     repositories {
-        maven {
-            url = 'https://maven.minecraftforge.net/'
-        }
-        maven {
-            url = 'https://maven.gofancy.wtf/releases'
-        }
-        mavenCentral()
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: 'wtf.gofancy.fancygradle', name: 'wtf.gofancy.fancygradle.gradle.plugin', version: '1.1.2-3'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'com.wynprice.cursemaven:CurseMaven:2.1.1'
     }
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'wtf.gofancy.fancygradle'
-
-fancyGradle {
-    patches {
-        resources
-        coremods
-        codeChickenLib
-        asm
-        mergetool
-    }
-}
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.wynprice.cursemaven'
 
 version = "${mod_version}"
 group = "${mod_id}"
 archivesBaseName = "${mod_name}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: mappings_channel, version: mappings_version
+    version = "1.12.2-14.23.5.2847"
+    runDir = "run"
 
-    runs {
-        client {
-            args "--username=InDev"
-
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-
-        server {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-    }
+    mappings = "stable_39"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
 repositories {
-    maven {
-        url = "https://www.cursemaven.com"
-    }
+    //Cursemaven
+    maven { url "https://www.cursemaven.com" }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    implementation fg.deobf("curse.maven:baubles-${baubles_version}")
-    implementation fg.deobf("curse.maven:classyhats-${classyhats_version}")
-    implementation fg.deobf("curse.maven:librarianlib-${librarianlib_version}")
+    deobfCompile "curse.maven:baubles-${baubles_version}"
+    deobfCompile "curse.maven:classyhats-${classyhats_version}"
+    deobfCompile "curse.maven:librarianlib-${librarianlib_version}"
 }
+
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "mcversion", minecraft_version
+    inputs.property "mcversion", project.minecraft.version
 
-    filesMatching('mcmod.info') {
-        expand 'mod_id': mod_id, 'mod_name': mod_name, 'version': project.version,
-                'mcversion': minecraft_version, 'mod_description': mod_description,
-                'mod_author': mod_author
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }
-
-jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : mod_name,
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : mod_name,
-                "Implementation-Version"  : mod_version,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-jar.finalizedBy('reobfJar')

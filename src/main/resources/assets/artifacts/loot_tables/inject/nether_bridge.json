@@ -1,0 +1,20 @@
+{
+  "pools": [
+    {
+      "name": "main",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "artifacts:pocket_piston"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "artifacts:drinking_hat"
+        }
+      ]
+    }
+  ]
+}
